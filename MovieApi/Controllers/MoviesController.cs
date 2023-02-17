@@ -17,7 +17,6 @@ namespace MovieApi.Controllers
         }
 
 
-
         //[HttpGet]
         //public async Task<IActionResult> GetAllAsync() //// first option(return object of genre)
         //{
@@ -41,9 +40,6 @@ namespace MovieApi.Controllers
                    Title = m.Title,
                    Year = m.Year,
                    Poster = m.Poster,
-
-                })
-                .ToListAsync();
 
             return Ok(movie);
         }
