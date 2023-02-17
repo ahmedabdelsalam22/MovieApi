@@ -9,6 +9,6 @@
 
         Genre UpdateGenre(Genre genre);
 
-        Task<Genre> DeleteGenre(Genre genre);
+        Genre DeleteGenre(Genre genre);
     }
 }
