@@ -1,4 +1,6 @@
-﻿using MovieApi.Dtos;
+﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
+using MovieApi.Dtos;
 using MovieApi.Models;
 using MovieApi.Services;
 
@@ -14,11 +16,13 @@ namespace MovieApi.Controllers
 
         private readonly IMoviesService _moviesService;
         private readonly IGenresService _genresService;
+        private readonly IMapper _mapper;
 
-        public MoviesController(IMoviesService moviesService, IGenresService genresService)
+        public MoviesController(IMoviesService moviesService, IGenresService genresService, IMapper mapper)
         {
             _moviesService = moviesService;
             _genresService = genresService;
+            _mapper = mapper;
         }
 
 
@@ -35,10 +39,11 @@ namespace MovieApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()  ///// to return genre name 
         {
-            var movie = await _moviesService.GetAll();
-            ///TODO: mapping movies to DtoMovies
+            var movies = await _moviesService.GetAll();
+            
+            var data = _mapper.Map<IEnumerable<MovieDetailsDto>>(movies);
 
-            return Ok(movie);
+            return Ok(data);
         }
 
 
@@ -51,20 +56,10 @@ namespace MovieApi.Controllers
             if (movie == null)     
                return NotFound(value: $"no Movie is found with Id: {id}");
 
-            //// map movie to MovieDetailsDto to can get GenreName if you want.
-            //var dto = new MovieDetailsDto 
-            //{
-            //    Id = movie.Id,
-            //    Description = movie.Description,
-            //    GenreName = movie.Genre.Name,
-            //    Rate = movie.Rate,
-            //    Title = movie.Title,
-            //    Year = movie.Year,
-            //    Poster = movie.Poster,
+            // map movie to MovieDetailsDto to can get GenreName if you want.
+            var dto = _mapper.Map<MovieDetailsDto>(movie);
 
-            //};
-
-            return Ok(movie);
+            return Ok(dto);
             
         }
 
@@ -72,12 +67,13 @@ namespace MovieApi.Controllers
         public async Task<IActionResult> GetMovieByGenreId(byte genreId)
         {
             var movie = await _moviesService.GetAll(genreId);
-            ///TODO: mapping movies to DtoMovies
 
-            if (movie == null)
+            var data = _mapper.Map<IEnumerable<MovieDetailsDto>>(movie);
+
+            if (data == null)
                 return NotFound(value: $"no Movie is found with this GenreId: {genreId}");
 
-            return Ok(movie);
+            return Ok(data);
         }
 
         [HttpPost]
@@ -100,15 +96,9 @@ namespace MovieApi.Controllers
             using var dataStream = new MemoryStream();
             await dto.Poster.CopyToAsync(dataStream);
 
-            var movie = new Movie()
-            {
-                Title = dto.Title,
-                Description = dto.Description,
-                Year = dto.Year,
-                Rate = dto.Rate,
-                Poster = dataStream.ToArray(),
-                GenreId = dto.GenreId
-            };
+            var movie = _mapper.Map<Movie>(dto);
+            movie.Poster = dataStream.ToArray();
+
             await _moviesService.AddMovie(movie);
             return Ok(movie);
         }
