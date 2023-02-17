@@ -6,5 +6,7 @@
         Task<Genre> CreateGenre(Genre genre);
 
         Task<Genre> UpdateGenre(Genre genre);
+
+        Task<Genre> DeleteGenre(Genre genre);
     }
 }
