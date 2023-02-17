@@ -1,27 +1,50 @@
-﻿namespace MovieApi.Services
+﻿using Microsoft.EntityFrameworkCore;
+using MovieApi.Models;
+
+namespace MovieApi.Services
 {
     public class MoviesService : IMoviesService
     {
-        public Task<IEnumerable<Movie>> GetAll()
+        private readonly ApplicationDbContext _context;
+
+        public MoviesService(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
-        }
-        public Task<Movie> AddMovie(Movie movie)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<Movie> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-        public Movie Update(Movie movie)
-        {
-            throw new NotImplementedException();
-        }
-        public Movie Delete(int id)
-        {
-            throw new NotImplementedException();
+            _context = context;
         }
 
+        public async Task<IEnumerable<Movie>> GetAll(byte genreId = 0)
+        {
+            var movies = await _context.Movies
+                .Where(x => x.GenreId == genreId || genreId == 0)
+                .Include(x => x.Genre)
+                
+               .ToListAsync();
+
+            return movies;
+        }
+        public async Task<Movie> GetById(int id)
+        {
+            var movies = await _context.Movies.Include(g => g.Genre).SingleOrDefaultAsync(m => m.Id == id);
+            return movies;
+        }
+        public async Task<Movie> AddMovie(Movie movie)
+        {
+            await _context.Movies.AddAsync(movie);
+            _context.SaveChanges();
+            return movie;
+        }       
+        public  Movie Update(Movie movie)
+        {
+            _context.Update(movie);
+            _context.SaveChanges();
+            return movie;
+        }
+        public Movie Delete(Movie movie)
+        {
+            _context.Remove(movie);
+            _context.SaveChanges();
+
+            return movie;
+        } 
     }
 }

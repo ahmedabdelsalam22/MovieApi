@@ -10,5 +10,7 @@
         Genre UpdateGenre(Genre genre);
 
         Genre DeleteGenre(Genre genre);
+        Task<bool> IsValidGenre(byte id);
+
     }
 }
