@@ -16,9 +16,11 @@ namespace MovieApi.Services
             var genres = await _context.Genres.OrderBy(g => g.Name).ToListAsync();
             return genres;
         }
-        public Task<Genre> CreateGenre(Genre genre)
+        public async Task<Genre> CreateGenre(Genre genre)
         {
-            throw new NotImplementedException();
+            await _context.Genres.AddAsync(genre);
+            _context.SaveChanges();
+            return genre;
         }
 
         public Task<Genre> UpdateGenre(Genre genre)
