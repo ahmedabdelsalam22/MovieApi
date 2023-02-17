@@ -16,6 +16,11 @@ namespace MovieApi.Services
             var genres = await _context.Genres.OrderBy(g => g.Name).ToListAsync();
             return genres;
         }
+        public async Task<Genre> GetById(byte id)
+        {
+            var genre = await _context.Genres.SingleOrDefaultAsync(g => g.Id == id);
+            return genre;
+        }
         public async Task<Genre> CreateGenre(Genre genre)
         {
             await _context.Genres.AddAsync(genre);
@@ -30,6 +35,8 @@ namespace MovieApi.Services
         public Task<Genre> DeleteGenre(Genre genre)
         {
             throw new NotImplementedException();
-        }     
+        }
+
+     
     }
 }

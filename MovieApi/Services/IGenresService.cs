@@ -3,6 +3,8 @@
     public interface IGenresService
     {
         Task<IEnumerable<Genre>> GetAll();
+
+        Task<Genre> GetById(byte id);
         Task<Genre> CreateGenre(Genre genre);
 
         Task<Genre> UpdateGenre(Genre genre);
