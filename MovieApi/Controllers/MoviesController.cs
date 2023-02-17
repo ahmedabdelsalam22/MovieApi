@@ -51,7 +51,7 @@ namespace MovieApi.Controllers
 
 
         [HttpGet(template: "{id}")]
-        public async Task<IActionResult> GetById(int id) 
+        public async Task<IActionResult> GetByIdAsync(int id) 
         {
             var movie = await _context.Movies.Include(g => g.Genre).SingleOrDefaultAsync(m=>m.Id == id); //// we cant use findBy(id) because there conflict with include syntax
           
