@@ -35,9 +35,12 @@ namespace MovieApi.Services
 
             return genre;
         }
-        public Task<Genre> DeleteGenre(Genre genre)
+        public Genre DeleteGenre(Genre genre)
         {
-            throw new NotImplementedException();
+            _context.Remove(genre);
+            _context.SaveChanges();
+
+            return genre;
         }
 
      
