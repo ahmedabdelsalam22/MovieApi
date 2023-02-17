@@ -4,5 +4,7 @@
     {
         Task<IEnumerable<Genre>> GetAll();
         Task<Genre> CreateGenre(Genre genre);
+
+        Task<Genre> UpdateGenre(Genre genre);
     }
 }
