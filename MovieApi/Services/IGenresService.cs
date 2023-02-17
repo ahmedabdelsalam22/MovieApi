@@ -7,7 +7,7 @@
         Task<Genre> GetById(byte id);
         Task<Genre> CreateGenre(Genre genre);
 
-        Task<Genre> UpdateGenre(Genre genre);
+        Genre UpdateGenre(Genre genre);
 
         Task<Genre> DeleteGenre(Genre genre);
     }
