@@ -2,5 +2,6 @@
 {
     public interface IGenresService
     {
+        Task<IEnumerable<Genre>> GetAll();
     }
 }
