@@ -26,15 +26,6 @@ namespace MovieApi.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllAsync() //// first option(return object of genre)
-        //{
-        //    var movie = await _context.Movies.Include(g => g.Genre).ToListAsync();
-
-        //    return Ok(movie);
-        //}
-
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()  ///// to return genre name 
@@ -56,7 +47,6 @@ namespace MovieApi.Controllers
             if (movie == null)     
                return NotFound(value: $"no Movie is found with Id: {id}");
 
-            // map movie to MovieDetailsDto to can get GenreName if you want.
             var dto = _mapper.Map<MovieDetailsDto>(movie);
 
             return Ok(dto);
