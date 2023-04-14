@@ -41,7 +41,7 @@ namespace MovieApi.Controllers
         [HttpGet(template: "{id}")]
         public async Task<IActionResult> GetByIdAsync(int id) 
         {
-            var movie = await _moviesService.GetById(id); //// we cant use findBy(id) because there conflict with include syntax
+            var movie = await _moviesService.GetById(id); 
 
 
             if (movie == null)     
@@ -67,7 +67,7 @@ namespace MovieApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm] MovieDto dto)  // use [FromForm] instead of [FormBody] to get Poster from user
+        public async Task<IActionResult> CreateAsync([FromForm] MovieDto dto) 
         {
 
             if (dto.Poster == null)
